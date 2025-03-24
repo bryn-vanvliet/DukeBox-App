@@ -1,6 +1,6 @@
 import express from 'express'
 
-import * as db from '../db/music.tsx'
+import * as db from '../db/dbFunctions.tsx'
 
 const router = express.Router()
 
@@ -8,7 +8,7 @@ export default router
 
 // GET /api/v1/songs
 
-router.get('songs', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const songs = await db.getAllSongs()
     res.json(songs)
@@ -20,10 +20,8 @@ router.get('songs', async (req, res) => {
   }
 })
 
-// delete 
+// delete
 
-
-// create 
-
+// create
 
 // update

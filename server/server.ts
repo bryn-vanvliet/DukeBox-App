@@ -2,14 +2,14 @@ import * as Path from 'node:path'
 
 import express from 'express'
 //change this
-import musicRoutes from './routes/songs.ts'
+import songsRoutes from './routes/songs.ts'
 
 const server = express()
 server.use(express.json())
 
 // ADD YOUR API ROUTES HERE
 //change this
-server.use('/api/v1/music', musicRoutes)
+server.use('/api/v1/songs', songsRoutes)
 
 if (process.env.NODE_ENV === 'production') {
   server.use(express.static(Path.resolve('public')))
