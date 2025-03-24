@@ -8,7 +8,7 @@ export default router
 
 // GET /api/v1/artist
 
-router.get('artist', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const songs = await db.getAllArtists()
     res.json(songs)
