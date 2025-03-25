@@ -2,7 +2,6 @@ import express from 'express'
 
 
 import * as db from '../db/dbFunctions.tsx'
-import { deleteSong } from '../db/dbFunctions.tsx'
 
 const router = express.Router()
 
@@ -37,7 +36,7 @@ router.delete('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    await db.addSong(req.body)
+   await db.addSong(req.body)
     res.sendStatus(204)
   } catch (e) {
     next (e)
@@ -49,11 +48,16 @@ router.post('/', async (req, res, next) => {
 router.patch('/:id', async (req, res, next) => {
   try {
     // const { name, url, artwork, yearReleased} = req.body
+    
+    const { name, yearReleased, artistId} = req.body
     const id = Number(req.params.id)
-    const { name, url, artwork, yearReleased} = req.body
-    await db.updateSong({name, url, artwork, yearReleased})
+    const url = String(req.body.url)
+    const artwork = String(req.body.artwork)
+  
+    await db.updateSong({name, yearReleased, id, url, artwork, artistId})
     res.sendStatus(204)
   } catch (e) {
     next (e)
   }
 })
+

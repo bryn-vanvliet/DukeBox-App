@@ -1,6 +1,8 @@
 import { getSongs } from "../apis/songs"
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
+import { useMutation } from "@tanstack/react-query"
+import { useQueryClient } from "@tanstack/react-query"
 
 const initialState = { name: '', yearReleased: ''}
 
@@ -11,9 +13,9 @@ const [formState, setFormState] = useState({name: ''}) // creating a state to ke
 
 const queryClient = useQueryClient()
 const addSongMutation = useMutation({
-  mutationFn: (song: SongData) => addSong(song)
+  mutationFn: (song: SongData) => addSong(song),
   onSuccess: async () => {
-    queryClient.invalidateQueries({queryley: ['birds']})
+    queryClient.invalidateQueries({querykey: ['birds']})
   }
 })
 
