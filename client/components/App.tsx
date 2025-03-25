@@ -1,4 +1,4 @@
-import Songs from "./songs.tsx"
+import Songs from "./Songs.tsx"
 
 
 function App() {
