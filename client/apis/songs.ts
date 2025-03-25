@@ -4,7 +4,7 @@ import { SongData, Song } from '../../models/songs'
 export async function getSongs() {
 const response = await request.get('/api/v1/songs')
 console.log(response.body)
-return response.body as SongData[]
+return response.body as Song[]
 }
  //create
 export async function addSong(newSong: SongData) // already a function named this?
@@ -15,10 +15,12 @@ export async function addSong(newSong: SongData) // already a function named thi
   }
 
   //delete 
-   // Delete mutation
 
-  // pass the id in the function instead of song object. Switch out addSong for a delete function
-  // deleteSongMutation.mutate({id})
+  export async function deleteSong(id: number) {
+    const response = await request.delete(`/api/v1/songs/${id}`)
+    return response
+  }
+   
 
   //update 
 

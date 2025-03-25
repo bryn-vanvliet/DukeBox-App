@@ -1,5 +1,4 @@
 export interface SongData {
-  id: number
   name: string
   artistId: number
   yearReleased: string
