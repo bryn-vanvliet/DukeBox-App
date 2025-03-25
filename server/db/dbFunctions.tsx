@@ -1,10 +1,35 @@
 import { ArtistData } from '../../models/artist'
-import { SongData } from '../../models/songs'
+import { SongData, Song } from '../../models/songs'
 import connection from './connection'
 
 // CRUD operations
 
 // Create
+
+export async function addSong(data: SongData) {
+  const { name, artistId, yearReleased, url, artwork } = data
+
+  const newSong = {
+    name,
+    artist_id: artistId,
+    year_released: yearReleased,
+    url,
+    artwork,
+  }
+  const results = await connection('songs').insert(newSong)
+  return results
+}
+export async function addArtist(data: ArtistData) {
+  const { name, country } = data
+
+  const newArtist = {
+    name,
+    country,
+  }
+  const results = await connection('songs').insert(newArtist)
+  return results
+}
+
 // Read
 
 export async function getAllSongs() {
@@ -28,4 +53,23 @@ export async function getAllArtists() {
 }
 
 // Update
+
+export async function updateSong(updatedSong: Song) {
+  const song: SongData[] = await connection('songs').where(
+    'songs.id', updatedSong.id)
+.update('name', updatedSong.name)
+.update('url', updatedSong.url)
+.update('artwork', updatedSong.artwork)
+.update('yearReleased', updatedSong.yearReleased)
+
+
+return song
+  
+}
+
 // Delete
+
+export async function deleteSong(id: number) {
+  const results = await connection('songs').del().where('songs.id', id)
+  return results
+}
