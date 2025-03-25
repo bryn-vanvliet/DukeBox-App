@@ -51,7 +51,7 @@ router.patch('/:id', async (req, res, next) => {
     // const { name, url, artwork, yearReleased} = req.body
     const id = Number(req.params.id)
     const { name, url, artwork, yearReleased} = req.body
-    await db.updateSong(req.body)
+    await db.updateSong({name, url, artwork, yearReleased})
     res.sendStatus(204)
   } catch (e) {
     next (e)
