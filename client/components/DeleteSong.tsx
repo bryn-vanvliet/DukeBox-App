@@ -31,11 +31,11 @@ function DeleteSong(props: Props) {
   }
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Name: </label>
+      <label htmlFor="name2">Name: </label>
       <input
         type="text"
-        name="name"
-        id="name"
+        name="name2"
+        id="name2"
         value={formState.name}
         onChange={handleChange}
       />

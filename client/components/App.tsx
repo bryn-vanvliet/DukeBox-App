@@ -1,11 +1,10 @@
-import Songs from "./Songs.tsx"
-
+import Songs from './Songs.tsx'
 
 function App() {
   return (
     <>
       <header className="header">
-        <h1>My Collection</h1>
+        <h1>Jukebox App</h1>
       </header>
       <section className="main">{<Songs />}</section>
     </>
