@@ -1,7 +1,6 @@
-import { SongData, Song } from '../../models/songs'
+import { Song } from '../../models/songs'
 import { useDeleteSong } from '../hooks/songsHook'
 import { useState } from 'react'
-import Songs from './Songs'
 
 const initialState = { name: '', artist: '' }
 
