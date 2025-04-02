@@ -1,6 +1,6 @@
 import { useSongs } from '../hooks/songsHook'
-import AddSong from './addSong' // why is this not AddSong
-import DeleteSong from './deleteSong'
+import AddSong from './AddSong' // why is this not AddSong
+import DeleteSong from './DeleteSong'
 
 function Songs() {
   const { data: songs, isPending, error } = useSongs()
