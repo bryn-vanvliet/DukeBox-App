@@ -30,7 +30,7 @@ function AddSong() {
       <label htmlFor="name1">Name: </label>
       <input
         type="text"
-        name="name1"
+        name="name"
         id="name1"
         value={formState.name}
         onChange={handleChange}

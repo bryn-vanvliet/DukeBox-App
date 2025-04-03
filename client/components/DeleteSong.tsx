@@ -33,7 +33,7 @@ function DeleteSong(props: Props) {
       <label htmlFor="name2">Name: </label>
       <input
         type="text"
-        name="name2"
+        name="name"
         id="name2"
         value={formState.name}
         onChange={handleChange}
