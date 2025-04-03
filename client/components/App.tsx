@@ -1,4 +1,4 @@
-import Songs from './Songs'
+import { Songs } from './Songs'
 
 function App() {
   return (
