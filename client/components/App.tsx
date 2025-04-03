@@ -1,4 +1,4 @@
-import Songs from './Songs.tsx'
+import Songs from './Songs'
 
 function App() {
   return (
@@ -6,7 +6,9 @@ function App() {
       <header className="header">
         <h1>Jukebox App</h1>
       </header>
-      <section className="main"><Songs /></section>
+      <section className="main">
+        <Songs />
+      </section>
     </>
   )
 }
