@@ -23,9 +23,9 @@ function Songs() {
           <li key={song.name}>{song.name}</li>
         ))}
       </ul>
-      <DeleteSong songs={songs} />  
+      <DeleteSong songs={songs} />
     </>
   )
 }
-// sends the variable with the component so the DeleteSong doesnt have to load the songs itself. Delete song is a child component. 
+// sends the variable with the component so the DeleteSong doesnt have to load the songs itself. Delete song is a child component.
 export default Songs
