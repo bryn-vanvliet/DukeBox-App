@@ -30,10 +30,12 @@
     ]
   },
   "dependencies": {
-    "@chakra-ui/react": "^3.16.1",
+    "@chakra-ui/react": "^2.10.7",
     "@devacademy/eslint-config": "^1.10.1",
     "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "express": "^4.17.2",
+    "framer-motion": "^12.9.4",
     "knex": "^2.5.1",
     "next-themes": "^0.4.6",
     "react-icons": "^5.5.0",
