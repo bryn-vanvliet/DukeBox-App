@@ -1,6 +1,7 @@
 import { useSongs } from '../hooks/songsHook'
 import AddSong from './AddSong' // why is this not AddSong
 import DeleteSong from './DeleteSong'
+import { Box, VStack, Text } from '@chakra-ui/react'
 
 export function Songs() {
   const { data: songs, isPending, error } = useSongs()
@@ -14,6 +15,17 @@ export function Songs() {
 
   return (
     <>
+    <Box w="300px" h="100vh" bg="gray.800" color="white" p={4} position="fixed">
+      <Text fontSize="xl" mb={4}>Playlist</Text>
+      <VStack align="stretch" spacing={3}>
+        {songs.map((song, idx) => (
+          <Box key={idx} bg="gray.700" p={2} borderRadius="md">
+            <Text fontWeight="bold">{song.title}</Text>
+            <Text fontSize="sm">{song.artist}</Text>
+          </Box>
+        ))}
+      </VStack>
+    </Box>
       <header className="header">
         <h1>Songs</h1>
       </header>
