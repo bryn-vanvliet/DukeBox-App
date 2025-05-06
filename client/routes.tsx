@@ -1,9 +1,9 @@
 import { createRoutesFromElements, Route } from 'react-router-dom'
 
 // import Layout from './components/Layout'
-import Home from './pages/Home'
+import Home from './pages/Home.tsx'
 import AddASong from './pages/AddASong.tsx'
-import Catalogue from '.pages/Catalogue.tsx'
+import Catalogue from './pages/Catalogue.tsx'
 
 
 export default createRoutesFromElements(

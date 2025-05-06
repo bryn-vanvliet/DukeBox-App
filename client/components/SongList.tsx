@@ -15,27 +15,23 @@ export function Songs() {
 
   return (
     <>
-    <Box w="300px" h="100vh" bg="gray.800" color="white" p={4} position="fixed">
+    
+    
+      <Box w="300px" h="100vh" bg="gray.800" color="white" p={4} position="fixed">
       <Text fontSize="xl" mb={4}>Playlist</Text>
       <VStack align="stretch" spacing={3}>
+      <AddSong />
+      
         {songs.map((song, idx) => (
-          <Box key={idx} bg="gray.700" p={2} borderRadius="md">
-            <Text fontWeight="bold">{song.title}</Text>
-            <Text fontSize="sm">{song.artist}</Text>
-          </Box>
+          <Box key={idx} bg="gray.800" p={3} borderRadius="md">
+            <Text>{song.name}</Text>
+       </Box>
         ))}
+      
+      <DeleteSong songs={songs} />
       </VStack>
     </Box>
-      <header className="header">
-        <h1>Songs</h1>
-      </header>
-      <AddSong />
-      <ul>
-        {songs.map((song) => (
-          <li key={song.name}>{song.name}</li>
-        ))}
-      </ul>
-      <DeleteSong songs={songs} />
+      
     </>
   )
 }
