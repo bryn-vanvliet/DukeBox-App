@@ -1,5 +1,5 @@
 import  { useState } from 'react'
-import {Button, Box} from '@chakra-ui/react'
+import {Button, Box, Input} from '@chakra-ui/react'
 
 export function DeezerSearch () {
   const [query, setQuery] = useState('')
@@ -16,16 +16,27 @@ export function DeezerSearch () {
   }
 
 return (
-  <div>
-    <input
-    type="text"
+  <Box
+  display="flex"
+  flexDirection="column"
+  alignItems="center"
+  justifyContent="center"
+  height="100vh"
+  >
+    <Input
     placeholder="Search Deezer..."
     value={query}
     onChange={(e) => setQuery(e.target.value)}
+    mb={4}
+    maxWidth="400px"
     />
-    <Box>
-    <Button onClick={handleSearch}>Search</Button>
-    </Box>
+    <Button 
+    onClick={handleSearch}
+    position="relative"
+    top={['4rem', '3rem', '2rem', '1rem']}
+    maxWidth="200px">
+      Search
+      </Button>
     <ul>
       {results.map((track) => (
         <li key={track.id}>
@@ -36,7 +47,7 @@ return (
         </li>
       ))}
     </ul>
-  </div>
+  </Box>
 )
 }
 
