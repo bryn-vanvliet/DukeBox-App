@@ -1,5 +1,6 @@
-import { Songs } from './SongList'
+// import { Songs } from './SongList'
 import Nav from './Nav'
+import { DeezerSearch } from './Search'
 
 
 function App() {
@@ -9,7 +10,8 @@ function App() {
       </header>
       <section className="main">
         <Nav />
-        <Songs />
+        {/* <Songs /> */}
+        <DeezerSearch />
       </section>
     </>
   )
