@@ -1,4 +1,5 @@
 import * as Path from 'node:path'
+import deezerRoutes from './routes/deezer.ts'
 
 import express from 'express'
 //change this
@@ -12,6 +13,7 @@ server.use(express.json())
 //change this
 server.use('/api/v1/songs', songsRoutes)
 server.use('/api/v1/artist', artistRoutes)
+server.use('/api/v1/deezer', deezerRoutes)
 
 if (process.env.NODE_ENV === 'production') {
   server.use(express.static(Path.resolve('public')))
