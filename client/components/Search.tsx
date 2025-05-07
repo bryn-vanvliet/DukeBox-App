@@ -19,7 +19,8 @@ export function DeezerSearch () {
   return (
     <Box
       display="flex"
-      flexDirection="column">
+      flexDirection="column"
+      >
       <Box 
       flex="0 0 auto"
       display="flex"
