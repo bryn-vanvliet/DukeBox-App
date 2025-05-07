@@ -1,4 +1,5 @@
 import  { useState } from 'react'
+import {Button, Box} from '@chakra-ui/react'
 
 export function DeezerSearch () {
   const [query, setQuery] = useState('')
@@ -22,7 +23,9 @@ return (
     value={query}
     onChange={(e) => setQuery(e.target.value)}
     />
-    <button onClick={handleSearch}>Search</button>
+    <Box>
+    <Button onClick={handleSearch}>Search</Button>
+    </Box>
     <ul>
       {results.map((track) => (
         <li key={track.id}>
