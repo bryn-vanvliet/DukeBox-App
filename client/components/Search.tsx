@@ -1,5 +1,6 @@
 import  { useState } from 'react'
-import {Button, Box, Input} from '@chakra-ui/react'
+
+import {Button, Box, Input, SimpleGrid, Text, Image} from '@chakra-ui/react'
 
 export function DeezerSearch () {
   const [query, setQuery] = useState('')
@@ -15,39 +16,67 @@ export function DeezerSearch () {
     }
   }
 
-return (
-  <Box
-  display="flex"
-  flexDirection="column"
-  alignItems="center"
-  justifyContent="center"
-  height="100vh"
-  >
-    <Input
-    placeholder="Search Deezer..."
-    value={query}
-    onChange={(e) => setQuery(e.target.value)}
-    mb={4}
-    maxWidth="400px"
-    />
-    <Button 
-    onClick={handleSearch}
-    position="relative"
-    top={['4rem', '3rem', '2rem', '1rem']}
-    maxWidth="200px">
-      Search
+  return (
+    <Box
+      display="flex"
+      flexDirection="column">
+      <Box 
+      flex="0 0 auto"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      height="70vh"
+    >
+      <Input
+        placeholder="Search Deezer..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        mb={4}
+        maxW="400px"
+      />
+      <Button 
+        onClick={handleSearch}
+        mb={6}
+        maxW="200px"
+      >
+        Search
       </Button>
-    <ul>
-      {results.map((track) => (
-        <li key={track.id}>
-          <h3>{track.title} - {track.artist.name}</h3>
-          {track.album.cover && (
-            <img src={track.album.cover} alt={track.album.title} style={{width: '100px'}} />
-          )} 
-        </li>
-      ))}
-    </ul>
   </Box>
-)
-}
 
+ {/* results area */}
+  <Box 
+  flex="1"
+  overflowY="auto"
+  px={4}
+  pb={6}
+  >
+      <SimpleGrid columns={[1, 2, 3]} spacing={6} mt={10}>
+        {results.map((track) => (
+          <Box 
+            key={track.id} 
+            borderWidth="1px" 
+            borderRadius="lg" 
+            overflow="hidden" 
+            p={4}
+            textAlign="center"
+          >
+            {track.album.cover && (
+              <Image 
+                src={track.album.cover}
+                alt={track.album.title}
+                borderRadius="md"
+                boxSize="150px"
+                objectFit="cover"
+                mb={3}
+                mx="auto"
+              />
+            )}
+            <Text fontWeight="bold">{track.title}</Text>
+            <Text fontSize="sm" color="gray.600">{track.artist.name}</Text>
+          </Box>
+        ))}
+      </SimpleGrid>
+    </Box>
+    </Box>
+  )}
