@@ -26,7 +26,10 @@ return (
     <ul>
       {results.map((track) => (
         <li key={track.id}>
-          {track.title} - {track.artist.name}
+          <h3>{track.title} - {track.artist.name}</h3>
+          {track.album.cover && (
+            <img src={track.album.cover} alt={track.album.title} style={{width: '100px'}} />
+          )} 
         </li>
       ))}
     </ul>
