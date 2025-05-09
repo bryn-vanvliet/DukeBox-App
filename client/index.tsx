@@ -10,7 +10,7 @@ const queryClient = new QueryClient();
 
 document.addEventListener('DOMContentLoaded', () => {
   createRoot(document.getElementById('app') as HTMLElement).render(
-    <ChakraProvider>
+    <ChakraProvider> 
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
         <App />

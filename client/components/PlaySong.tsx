@@ -1,14 +1,31 @@
 import {useParams} from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import {Box, Image, Text, Spinner } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
+
+interface Track {
+  id: number
+  title: string
+  preview: string
+  duration: number
+  artist: {
+    name: string
+    picture: string
+  }
+  album: {
+    cover_big: string | undefined
+    title: string
+    cover: string
+  }
+}
 
 export function PlaySong() {
   const { id } = useParams()
-  const [ track, setTrack ] = useState<any>(null)
+  const [ track, setTrack ] = useState<Track | null>(null)
 
   useEffect(() => {
     async function fetchTrack() {
-      const res = await fetch(`http://localhost:5000/api/v1/deezer/track/${id}`)
+      const res = await fetch(`http://localhost:5000/api/v1/deezer/play/${id}`)
       const data = await res.json()
       setTrack(data)
     }
@@ -27,6 +44,8 @@ export function PlaySong() {
         <source src={track.preview} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
+      <Link to="/">Back to Search</Link>
     </Box>
+    
   )
 }

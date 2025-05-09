@@ -11,14 +11,16 @@ function App() {
   return (
     <>
       <header className="header">
+      
       <Nav />
       </header>
       <section className="main">
        <Routes>
         <Route path="/" element={<DeezerSearch />} />
-        <Route path="/search" element={<DeezerSearch />} />
-        <Route path="/play:id" element={<PlaySong />} />
+        {/* <Route path="/search" element={<DeezerSearch />} /> */}
+        <Route path="/play/:id" element={<PlaySong />} />
        </Routes>
+       
       </section>
     </>
   )
