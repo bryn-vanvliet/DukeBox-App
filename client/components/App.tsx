@@ -16,7 +16,8 @@ function App() {
       <section className="main">
        <Routes>
         <Route path="/" element={<DeezerSearch />} />
-        <Route path="/track:id" element={<PlaySong />} />
+        <Route path="/search" element={<DeezerSearch />} />
+        <Route path="/play:id" element={<PlaySong />} />
        </Routes>
       </section>
     </>
