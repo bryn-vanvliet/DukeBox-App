@@ -1,37 +1,48 @@
-import { useState, useEffect } from 'react';
-import { Box, Button, Input, SimpleGrid, Text, Image } from '@chakra-ui/react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import { Box, Button, Input, SimpleGrid, Text, Image } from '@chakra-ui/react'
+import { Link, useLocation } from 'react-router-dom'
+
+
 
 export function DeezerSearch() {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState<any[]>([]);
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState<any[]>([])
 
-  const location = useLocation(); // Get the current location (including query params)
+  const location = useLocation() // Get the current location (including query params)
 
   // Extract the query parameter from the URL (e.g., ?q=ad)
   useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const queryParam = urlParams.get('q') || ''; // Get the query parameter `q`
+    const urlParams = new URLSearchParams(location.search)
+    const queryParam = urlParams.get('q') || '' // Get the query parameter `q`
 
     if (queryParam) {
-      setQuery(queryParam); // Set query state from the URL
-      handleSearch(queryParam); // Perform the search
+      setQuery(queryParam) // Set query state from the URL
+      handleSearch(queryParam) // Perform the search
     }
-  }, [location.search]); // This effect depends on changes to the URL's search query
+  }, [location.search]) // This effect depends on changes to the URL's search query
 
   const handleSearch = async (searchQuery: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/deezer/search?q=${encodeURIComponent(searchQuery)}`);
-      const data = await response.json();
-      setResults(data.data);
+      const response = await fetch(
+        `http://localhost:5000/api/v1/deezer/search?q=${encodeURIComponent(searchQuery)}`,
+      )
+      const data = await response.json()
+      setResults(data.data)
     } catch (error) {
-      console.error('Error fetching from proxy server:', error);
+      console.error('Error fetching from proxy server:', error)
     }
-  };
+  }
 
   return (
     <Box display="flex" flexDirection="column">
-      <Box flex="0 0 auto" display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="70vh">
+      <Box
+        flex="0 0 auto"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        height="70vh"
+      >
         <Input
           placeholder="Search Deezer..."
           value={query}
@@ -69,12 +80,14 @@ export function DeezerSearch() {
                   />
                 )}
                 <Text fontWeight="bold">{track.title}</Text>
-                <Text fontSize="sm" color="gray.600">{track.artist.name}</Text>
+                <Text fontSize="sm" color="gray.600">
+                  {track.artist.name}
+                </Text>
               </Link>
             </Box>
           ))}
         </SimpleGrid>
       </Box>
     </Box>
-  );
+  )
 }
