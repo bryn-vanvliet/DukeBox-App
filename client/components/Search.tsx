@@ -2,11 +2,22 @@ import { useState, useEffect } from 'react'
 import { Box, Button, Input, SimpleGrid, Text, Image } from '@chakra-ui/react'
 import { Link, useLocation } from 'react-router-dom'
 
+type Track = {
+  id: number
+  title: string
+  artist: {
+    name: string
+  }
+  album: {
+    title: string
+    cover: string
+  }
+}
 
 
 export function DeezerSearch() {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState<any[]>([])
+  const [results, setResults] = useState<Track[]>([])
 
   const location = useLocation() // Get the current location (including query params)
 
