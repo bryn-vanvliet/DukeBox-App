@@ -1,48 +1,30 @@
 import { useParams, Link as RouterLink } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useTrack} from '../hooks/useTrack'
 import { Box, Image, Text, Spinner, VStack, Link } from '@chakra-ui/react'
 
-interface Track {
-  id: number
-  title: string
-  preview: string
-  duration: number
-  artist: {
-    name: string
-    picture: string
-  }
-  album: {
-    cover_big: string
-    title: string
-    cover: string
-  }
-}
 
 export function PlaySong() {
   const { id } = useParams()
-  const [track, setTrack] = useState<Track | null>(null)
+  const { track, loading, error } = useTrack(id)
 
-  useEffect(() => {
-    async function fetchTrack() {
-      try {
-        const res = await fetch(`http://localhost:5000/api/v1/deezer/play/${id}`)
-        const data = await res.json()
-        setTrack(data)
-      } catch (err) {
-        console.error('Error fetching track:', err)
-      }
-    }
-
-    if (id) fetchTrack()
-  }, [id])
-
-  if (!track) {
+  if (loading) {
     return (
       <Box height="100vh" display="flex" alignItems="center" justifyContent="center">
         <Spinner size="xl" thickness="4px" speed="0.65s" color="teal.500" />
       </Box>
     )
   }
+
+  if (error || !track) {
+    return (
+      <Box textAlign="center" p={8}>
+        <Text color="red.500">Failed to load track.</Text>
+        <Link as={RouterLink} to="/">Back to Search</Link>
+      </Box>
+    )
+  }
+
+  
 
   return (
     <Box
