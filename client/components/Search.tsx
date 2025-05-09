@@ -1,6 +1,7 @@
 import  { useState } from 'react'
 
 import {Button, Box, Input, SimpleGrid, Text, Image} from '@chakra-ui/react'
+import {Link} from 'react-router-dom'
 
 export function DeezerSearch () {
   const [query, setQuery] = useState('')
@@ -53,7 +54,9 @@ export function DeezerSearch () {
   pb={6}
   >
       <SimpleGrid columns={[1, 2, 3]} spacing={6} mt={10}>
+        
         {results.map((track) => (
+        
           <Box 
             key={track.id} 
             borderWidth="1px" 
@@ -62,6 +65,7 @@ export function DeezerSearch () {
             p={4}
             textAlign="center"
           >
+            <Link to={`/search?q=${encodeURIComponent(query)}`}>
             {track.album.cover && (
               <Image 
                 src={track.album.cover}
@@ -75,6 +79,7 @@ export function DeezerSearch () {
             )}
             <Text fontWeight="bold">{track.title}</Text>
             <Text fontSize="sm" color="gray.600">{track.artist.name}</Text>
+            </Link>
           </Box>
         ))}
       </SimpleGrid>

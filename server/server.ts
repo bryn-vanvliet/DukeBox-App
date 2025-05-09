@@ -16,6 +16,7 @@ server.use(express.json())
 server.use('/api/v1/songs', songsRoutes)
 server.use('/api/v1/artist', artistRoutes)
 server.use('/api/v1/deezer', deezerRoutes)
+ 
 
 if (process.env.NODE_ENV === 'production') {
   server.use(express.static(Path.resolve('public')))
