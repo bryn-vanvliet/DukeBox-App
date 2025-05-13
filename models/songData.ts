@@ -1,8 +1,8 @@
 export interface SongData {
-  id: number 
+  id: number
   title: string
   artist: string
-  album: string 
+  album: string
   preview: string
   cover: string
 }

@@ -1,15 +1,21 @@
 import { useParams, Link as RouterLink } from 'react-router-dom'
-import { useTrack} from '../hooks/useTrack'
+import { useTrack } from '../hooks/useTrack'
 import { Box, Image, Text, Spinner, VStack, Link } from '@chakra-ui/react'
-
+import { useSavedTracks } from '../hooks/useSavedTracks'
 
 export function PlaySong() {
   const { id } = useParams()
   const { track, loading, error } = useTrack(id)
 
+
   if (loading) {
     return (
-      <Box height="100vh" display="flex" alignItems="center" justifyContent="center">
+      <Box
+        height="100vh"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
         <Spinner size="xl" thickness="4px" speed="0.65s" color="teal.500" />
       </Box>
     )
@@ -19,12 +25,12 @@ export function PlaySong() {
     return (
       <Box textAlign="center" p={8}>
         <Text color="red.500">Failed to load track.</Text>
-        <Link as={RouterLink} to="/">Back to Search</Link>
+        <Link as={RouterLink} to="/">
+          Back to Search
+        </Link>
       </Box>
     )
   }
-
-  
 
   return (
     <Box

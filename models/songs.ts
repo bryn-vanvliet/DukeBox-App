@@ -1,4 +1,7 @@
 export interface SongData {
+  artist: ReactNode
+  id(id: any): void
+  title: ReactNode
   name: string
   artistId: number
   yearReleased: string
