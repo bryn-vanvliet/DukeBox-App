@@ -1,12 +1,16 @@
 import { useParams, Link as RouterLink } from 'react-router-dom'
 import { useTrack } from '../hooks/useTrack'
-import { Box, Image, Text, Spinner, VStack, Link } from '@chakra-ui/react'
+import { Box, Image, Text, Spinner, VStack, Link, Button } from '@chakra-ui/react'
 import { useSavedTracks } from '../hooks/useSavedTracks'
 
 export function PlaySong() {
   const { id } = useParams()
   const { track, loading, error } = useTrack(id)
 
+  const { savedTracks, addTrackToSaved, removeTrackFromSaved} = useSavedTracks()
+
+  const isSaved = (trackId: number) => 
+    savedTracks.some((track) => track.id === trackId)
 
   if (loading) {
     return (
@@ -85,6 +89,12 @@ export function PlaySong() {
           </Link>
         </VStack>
       </Box>
+      <Button onClick={() => addTrackToSaved(track)}>
+        Save to Playlist
+      </Button>
+  
+
     </Box>
+
   )
 }
