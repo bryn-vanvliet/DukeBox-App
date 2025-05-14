@@ -43,6 +43,7 @@ export default function Nav() {
                   Home
                 </Button>
                 {/* Add playlist route too */}
+                <Button bgColor="Pink" onClick={() => navigate('/Playlist') }>Playlist</Button>
               </Flex>
             </DrawerBody>
             <DrawerFooter></DrawerFooter>
