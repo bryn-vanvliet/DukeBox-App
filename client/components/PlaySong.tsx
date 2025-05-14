@@ -9,8 +9,9 @@ export function PlaySong() {
 
   const { savedTracks, addTrackToSaved, removeTrackFromSaved} = useSavedTracks()
 
-  const isSaved = (trackId: number) => 
-    savedTracks.some((track) => track.id === trackId)
+  console.log('Saved tracks:', savedTracks)
+
+
 
   if (loading) {
     return (
@@ -36,7 +37,19 @@ export function PlaySong() {
     )
   }
 
+ const song = {
+    id: track.id,
+    title: track.title,
+    artist: track.artist.name,
+    album: track.album.title,
+    preview: track.preview,
+    cover: track.album.cover,
+  }
+
+  const isSaved = savedTracks.some((t) => t.id === song.id)
+
   return (
+   
     <Box
       display="flex"
       alignItems="center"
@@ -71,8 +84,8 @@ export function PlaySong() {
           <Text fontSize="md" color="gray.600" fontStyle="italic">
             {track.artist.name}
           </Text>
-
-          <Box as="audio" controls width="100%" mt={2}>
+{/* Play the song */}
+          <Box as="audio" controls width="100%" mt={2}> 
             <source src={track.preview} type="audio/mpeg" />
             Your browser does not support the audio element.
           </Box>
@@ -89,11 +102,17 @@ export function PlaySong() {
           </Link>
         </VStack>
       </Box>
-      <Button onClick={() => addTrackToSaved(track)}>
-        Save to Playlist
-      </Button>
-  
-
+      <Box> 
+        {isSaved ? (
+          <Button onClick={() => removeTrackFromSaved(song.id)}>
+            Remove from Playlist
+          </Button>
+        ): (
+          <Button onClick={() => addTrackToSaved(song)}>
+            Save to Playlist
+          </Button>
+        )}
+      </Box>
     </Box>
 
   )
