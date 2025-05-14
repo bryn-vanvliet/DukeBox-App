@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { SongData } from '../../models/songs'
+import { SongData } from '../../models/songData'
 
 export function useSavedTracks() {
   const [savedTracks, setSavedTracks] = useState<SongData[]>([])
@@ -13,11 +13,11 @@ export function useSavedTracks() {
     })
   }
 
-  // Remove track from playlist
-  const removeTrackFromSaved = (trackId: number) => {
+  // Remove track from playlist by id
+  const removeTrackFromSaved = (songId: number) => {
     setSavedTracks((prevSavedTracks) => {
       const updatedTracks = prevSavedTracks.filter(
-        (track) => track.id !== trackId
+        (song) => song.id !== songId
       )
       localStorage.setItem('savedTracks', JSON.stringify(updatedTracks))
       return updatedTracks

@@ -1,13 +1,9 @@
 import { useSavedTracks } from "../hooks/useSavedTracks"
-import { SongData } from "../../models/songs"
+import { SongData } from "../../models/songData"
 
 
-export function Playlist() {
-  const { savedTracks, addTrackToSaved, removeTrackFromSaved } = useSavedTracks()
-
-  // Ensure that `someTrack` follows the `SongData` structure
-  const someTrack: SongData = {
-    id: 123, // Use `id` as number (instead of `artistId`)
+ const someTrack: SongData = {
+    id: 1, // Use `id` as number (instead of `artistId`)
     title: 'Title',
     artist: 'plum',
     album: 'plums',
@@ -15,14 +11,19 @@ export function Playlist() {
     cover: 'moreplums',
   }
 
+export function Playlist() {
+  const { savedTracks, addTrackToSaved, removeTrackFromSaved } = useSavedTracks()
+
+ 
+
   return (
     <div>
       <h3>Your Saved Tracks, YAY!</h3>
       <ul>
-        {savedTracks.map((track) => (
-          <li key={track.id}>
-            <p>{track.title} - {track.artist}</p>
-            <button onClick={() => removeTrackFromSaved(track.id)}>Remove</button>
+        {savedTracks.map((savedSong) => (
+          <li key={savedSong.id}>
+            <p>{savedSong.title} - {savedSong.artist}</p>
+            <button onClick={() => removeTrackFromSaved(savedSong.id)}>Remove</button>
           </li>
         ))}
       </ul>
