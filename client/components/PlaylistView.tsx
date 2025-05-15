@@ -47,33 +47,18 @@ export function PlaylistView() {
     localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
   }
 
-  // if(playlist.songs.length === 0) {
-  //   return (
-  //     <Box textAlign="center" p={8}>
-  //       <VStack spacing={4}>
-  //         <Text fontSize="lg" color="gray.600">
-  //           This playlist is empty.
-  //         </Text>
-  //         <Button
-
-  //           colorScheme="teal"
-  //           size="md"
-  //           bgColor="Pink" onClick={() => navigate('/') }
-  //         >
-  //           Add to Playlist
-  //         </Button>
-  //       </VStack>
-  //     </Box>
-  //   )
-  // }
-
   return (
     <Box
       minHeight="100vh"
       px={6}
       py={10}
       bgGradient="linear(to-b, beige 0%, #fefae0 100%)"
+      display="flex"
+      alignItems="flex-start"
+     
+
     >
+      <Box display="flex" flexDirection="column" alignItems="center" width="100%" mt={20}>
       <Select
         placeholder="Select a playlist"
         mb={6}
@@ -81,6 +66,7 @@ export function PlaylistView() {
         height="50"
         onChange={(e) => setSelectedId(e.target.value)}
         value={selectedId || ''}
+        width="30%"
       >
         {playlists.map((p) => (
           <option key={p.id} value={p.id}>
@@ -89,9 +75,11 @@ export function PlaylistView() {
         ))}
       </Select>
 
+
       {selectedPlaylist ? (
         selectedPlaylist.songs.length === 0 ? (
-          <Box textAlign="center" p={8}>
+          <Box textAlign="center" p={8}
+          >
             <VStack spacing={4}>
               <Text fontSize="lg" color="gray.600">
                 This playlist is empty.
@@ -107,7 +95,7 @@ export function PlaylistView() {
             </VStack>
           </Box>
         ) : (
-          <VStack spacing={0} align="stretch">
+          <VStack spacing={0} align="stretch" width="30%">
             {selectedPlaylist.songs.map((song) => (
               <PlaylistItem
                 key={song.id}
@@ -124,6 +112,7 @@ export function PlaylistView() {
       ) : (
         <Text align="center">No playlist selected</Text>
       )}
+    </Box>
     </Box>
   )
 }
