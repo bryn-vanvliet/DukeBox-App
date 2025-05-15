@@ -10,7 +10,6 @@ import {
 import { FaPlay, FaPause } from 'react-icons/fa'
 import { useAudioPlayer } from '../hooks/useAudioPlayer'
 
-
 type PlaylistItemProps = {
   title: string
   duration: string
@@ -18,6 +17,8 @@ type PlaylistItemProps = {
   previewURL: string
   artist: string
   onRemove: () => void
+  isPlaying: boolean
+  onPlayPause: () => void
 }
 
 export const PlaylistItem = ({
@@ -27,10 +28,18 @@ export const PlaylistItem = ({
   previewURL,
   artist,
   onRemove,
+  isPlaying,
+  onPlayPause,
 }: PlaylistItemProps) => {
-  const {isPlaying, togglePlay} = useAudioPlayer(previewURL)
-  
-  
+  const { togglePlay } = useAudioPlayer(previewURL)
+
+  const handleClick = () => {
+    if (isPlaying) {
+      togglePlay()
+    } else {
+      onPlayPause()
+    }
+  }
 
   return (
     <Flex
@@ -53,25 +62,25 @@ export const PlaylistItem = ({
         </Box>
       </Flex>
 
-      <Text fontSize="sm" color="gray.500">
-        {duration}
-      </Text>
+      <Text fontSize="sm" color="gray.500">{duration}</Text>
 
       <Flex gap={2}>
         <IconButton
           icon={isPlaying ? <FaPause /> : <FaPlay />}
-          onClick={togglePlay} 
+          onClick={handleClick}
           aria-label={isPlaying ? 'Pause Preview' : 'Play Preview'}
           size="sm"
-          variant="ghost"        />
-          <IconButton 
+          variant="ghost"
+        />
+        <IconButton
           icon={<DeleteIcon />}
           onClick={onRemove}
           aria-label="Remove from Playlist"
           size="sm"
           variant="ghost"
           color="red.500"
-/>
+        />
       </Flex>
     </Flex>
-  )}
+  )
+}

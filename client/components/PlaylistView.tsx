@@ -3,6 +3,7 @@ import { PlaylistItem } from './Playlist-item'
 import { useEffect, useState } from 'react'
 import { Playlist } from '../../models/Playlist'
 import { useNavigate } from 'react-router-dom'
+import { DeezerSearch } from './Search'
 
 function formatDuration(seconds: number) {
   const min = Math.floor(seconds / 60)
@@ -14,6 +15,8 @@ export function PlaylistView() {
   const [playlists, setPlaylists] = useState<Playlist[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const navigate = useNavigate()
+  const [currentlyPlayingUrl, setCurrentlyPlayingUrl] = useState<string | null>(null)
+  // const audioRef = useRef<HTML
 
   const selectedPlaylist = playlists.find((p) => p.id === selectedId)
 
@@ -99,14 +102,20 @@ export function PlaylistView() {
           <VStack spacing={0} align="stretch" width="30%">
             {selectedPlaylist.songs.map((song) => (
               <PlaylistItem
-                key={song.id}
-                title={song.title}
-                artist={song.artist.name}
-                duration={formatDuration(song.duration)}
-                albumCover={song.album.cover}
-                previewURL={song.preview}
-                onRemove={() => removeTrackFromPlaylist(song.id)}
-              />
+              key={song.id}
+              title={song.title}
+              artist={song.artist.name}
+              duration={formatDuration(song.duration)}
+              albumCover={song.album.cover}
+              previewURL={song.preview}
+              onRemove={() => removeTrackFromPlaylist(song.id)}
+              isPlaying={currentlyPlayingUrl === song.preview}
+              onPlayPause={() =>
+                setCurrentlyPlayingUrl(prev =>
+                  prev === song.preview ? null : song.preview
+                )
+              }
+            />
             ))}
           </VStack>
         )
@@ -122,6 +131,7 @@ export function PlaylistView() {
               >
                 Add to Playlist
               </Button>
+              <DeezerSearch />
     </Box>
     
     </Box>
