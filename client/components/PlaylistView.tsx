@@ -74,6 +74,7 @@ export function PlaylistView() {
           </option>
         ))}
       </Select>
+      
 
 
       {selectedPlaylist ? (
@@ -112,7 +113,17 @@ export function PlaylistView() {
       ) : (
         <Text align="center">No playlist selected</Text>
       )}
+      <Button
+                colorScheme="teal"
+                size="md"
+                bgColor="pink"
+                onClick={() => navigate('/')}
+                mt={3}
+              >
+                Add to Playlist
+              </Button>
     </Box>
+    
     </Box>
   )
 }
