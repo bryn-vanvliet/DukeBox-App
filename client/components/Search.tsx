@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Box, Button, Input, SimpleGrid, Text, Image } from '@chakra-ui/react'
 import { Link, useLocation } from 'react-router-dom'
 
+// Define the track type returned by the API
 type Track = {
   id: number
   title: string
@@ -12,30 +13,29 @@ type Track = {
     title: string
     cover: string
   }
+  preview: string
+  duration: number
 }
-
 
 export function DeezerSearch() {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<Track[]>([])
+  const location = useLocation()
 
-  const location = useLocation() // Get the current location (including query params)
-
-  // Extract the query parameter from the URL (e.g., ?q=ad)
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search)
-    const queryParam = urlParams.get('q') || '' // Get the query parameter `q`
+    const queryParam = urlParams.get('q') || ''
 
     if (queryParam) {
-      setQuery(queryParam) // Set query state from the URL
-      handleSearch(queryParam) // Perform the search
+      setQuery(queryParam)
+      handleSearch(queryParam)
     }
-  }, [location.search]) // This effect depends on changes to the URL's search query
+  }, [location.search])
 
   const handleSearch = async (searchQuery: string) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/deezer/search?q=${encodeURIComponent(searchQuery)}`,
+        `http://localhost:5000/api/v1/deezer/search?q=${encodeURIComponent(searchQuery)}`
       )
       const data = await response.json()
       setResults(data.data)
@@ -66,7 +66,6 @@ export function DeezerSearch() {
         </Button>
       </Box>
 
-      {/* results area */}
       <Box flex="1" overflowY="auto" px={4} pb={6}>
         <SimpleGrid columns={[1, 2, 3]} spacing={6} mt={10}>
           {results.map((track) => (

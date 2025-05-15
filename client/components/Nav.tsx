@@ -15,6 +15,7 @@ import Logo from './Logo'
 export default function Nav() {
   const navigate = useNavigate()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  
 
   return (
     <nav>
@@ -42,6 +43,7 @@ export default function Nav() {
                   Home
                 </Button>
                 {/* Add playlist route too */}
+                <Button bgColor="Pink" onClick={() => navigate('/Playlist') }>Playlist</Button>
               </Flex>
             </DrawerBody>
             <DrawerFooter></DrawerFooter>
