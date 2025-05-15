@@ -264,7 +264,7 @@ export function PlaySong() {
                 onClick={() => addToPlaylist(song)}
                 isDisabled={!selectedId || isSaved}
               >
-                {isSaved ? 'Already in Playlist' : 'Add to Playlist'}
+                {isSaved ? 'Woop!' : 'Add to Playlist'}
               </Button>
             )}
           </>
