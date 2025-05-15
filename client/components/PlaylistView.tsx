@@ -87,9 +87,9 @@ export function PlaylistView() {
               <PlaylistItem
                 key={song.id}
                 title={song.title}
-                artist={song.artist}
+                artist={song.artist.name}
                 duration={formatDuration(song.duration)}
-                albumCover={song.cover}
+                albumCover={song.album.cover}
                 previewURL={song.preview}
                 onRemove={() => removeTrackFromPlaylist(song.id)}
               />

@@ -1,3 +1,4 @@
+import { DeleteIcon } from '@chakra-ui/icons'
 import {
   Box,
   Flex,
@@ -5,7 +6,10 @@ import {
   Image,
   Text,
 } from '@chakra-ui/react'
-import { FaPlay, FaTrash } from 'react-icons/fa'
+
+import { FaPlay, FaPause } from 'react-icons/fa'
+import { useAudioPlayer } from '../hooks/useAudioPlayer'
+
 
 type PlaylistItemProps = {
   title: string
@@ -24,10 +28,9 @@ export const PlaylistItem = ({
   artist,
   onRemove,
 }: PlaylistItemProps) => {
-  const handlePlay = () => {
-    const audio = new Audio(previewURL)
-    audio.play()
-  }
+  const {isPlaying, togglePlay} = useAudioPlayer(previewURL)
+  
+  
 
   return (
     <Flex
@@ -56,21 +59,19 @@ export const PlaylistItem = ({
 
       <Flex gap={2}>
         <IconButton
-          aria-label="Play Preview"
-          icon={<FaPlay />}
+          icon={isPlaying ? <FaPause /> : <FaPlay />}
+          onClick={togglePlay} 
+          aria-label={isPlaying ? 'Pause Preview' : 'Play Preview'}
           size="sm"
-          onClick={handlePlay}
-          variant="ghost"
-        />
-        <IconButton
-          aria-label="Remove from Playlist"
-          icon={<FaTrash />}
-          size="sm"
+          variant="ghost"        />
+          <IconButton 
+          icon={<DeleteIcon />}
           onClick={onRemove}
+          aria-label="Remove from Playlist"
+          size="sm"
           variant="ghost"
           color="red.500"
-        />
+/>
       </Flex>
     </Flex>
-  )
-}
+  )}
