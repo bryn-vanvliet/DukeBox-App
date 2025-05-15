@@ -1,15 +1,8 @@
-
-import {
-  Box,
-  Text,
-  VStack,
-
-  Select,
-} from '@chakra-ui/react'
+import { Box, Text, VStack, Select, Button } from '@chakra-ui/react'
 import { PlaylistItem } from './Playlist-item'
 import { useEffect, useState } from 'react'
 import { Playlist } from '../../models/Playlist'
-
+import { useNavigate } from 'react-router-dom'
 
 function formatDuration(seconds: number) {
   const min = Math.floor(seconds / 60)
@@ -20,6 +13,7 @@ function formatDuration(seconds: number) {
 export function PlaylistView() {
   const [playlists, setPlaylists] = useState<Playlist[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const navigate = useNavigate()
 
   const selectedPlaylist = playlists.find((p) => p.id === selectedId)
 
@@ -53,16 +47,33 @@ export function PlaylistView() {
     localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
   }
 
+  // if(playlist.songs.length === 0) {
+  //   return (
+  //     <Box textAlign="center" p={8}>
+  //       <VStack spacing={4}>
+  //         <Text fontSize="lg" color="gray.600">
+  //           This playlist is empty.
+  //         </Text>
+  //         <Button
+
+  //           colorScheme="teal"
+  //           size="md"
+  //           bgColor="Pink" onClick={() => navigate('/') }
+  //         >
+  //           Add to Playlist
+  //         </Button>
+  //       </VStack>
+  //     </Box>
+  //   )
+  // }
+
   return (
     <Box
       minHeight="100vh"
       px={6}
       py={10}
       bgGradient="linear(to-b, beige 0%, #fefae0 100%)"
-
     >
-      
-
       <Select
         placeholder="Select a playlist"
         mb={6}
@@ -80,7 +91,21 @@ export function PlaylistView() {
 
       {selectedPlaylist ? (
         selectedPlaylist.songs.length === 0 ? (
-          <Text align="center">No songs in this playlist yet.</Text>
+          <Box textAlign="center" p={8}>
+            <VStack spacing={4}>
+              <Text fontSize="lg" color="gray.600">
+                This playlist is empty.
+              </Text>
+              <Button
+                colorScheme="teal"
+                size="md"
+                bgColor="pink"
+                onClick={() => navigate('/')}
+              >
+                Add to Playlist
+              </Button>
+            </VStack>
+          </Box>
         ) : (
           <VStack spacing={0} align="stretch">
             {selectedPlaylist.songs.map((song) => (
@@ -102,7 +127,3 @@ export function PlaylistView() {
     </Box>
   )
 }
-      
-    
-        
-     
