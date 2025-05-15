@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import Nav from './Nav'
 import { DeezerSearch } from './Search'
 import { PlaySong } from './PlaySong'
-import { Playlist } from './Playlists'
+import { PlaylistView } from './PlaylistView'
 
 
 
@@ -20,7 +20,7 @@ function App() {
         <Route path="/" element={<DeezerSearch />} />
         {/* <Route path="/search" element={<DeezerSearch />} /> */}
         <Route path="/play/:id" element={<PlaySong />} />
-        <Route path="/Playlist" element={<Playlist />} />
+        <Route path="/Playlist" element={<PlaylistView />} />
        </Routes>
        
       </section>

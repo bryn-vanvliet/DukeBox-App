@@ -1,17 +1,55 @@
 import { useParams, Link as RouterLink } from 'react-router-dom'
 import { useTrack } from '../hooks/useTrack'
-import { Box, Image, Text, Spinner, VStack, Link, Button } from '@chakra-ui/react'
-import { useSavedTracks } from '../hooks/useSavedTracks'
+import {
+  Box,
+  Image,
+  Text,
+  Spinner,
+  VStack,
+  Link,
+  Button,
+  Select,
+} from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
+import { Playlist } from '../../models/Playlist'
+import { SongData } from '../../models/songData'
 
 export function PlaySong() {
   const { id } = useParams()
   const { track, loading, error } = useTrack(id)
+  const [playlists, setPlaylists] = useState<Playlist[]>([])
+  const [selectedId, setSelectedId] = useState<string>('')
 
-  const { savedTracks, addTrackToSaved, removeTrackFromSaved} = useSavedTracks()
+  useEffect(() => {
+    const stored = localStorage.getItem('dukebox-playlists')
+    if (stored) {
+      const parsed: Playlist[] = JSON.parse(stored)
+      setPlaylists(parsed)
+      if (parsed.length > 0) {
+        setSelectedId(parsed[0].id)
+      }
+    }
+  }, [])
 
-  console.log('Saved tracks:', savedTracks)
+  const addToPlaylist = (song: SongData) => {
+    if (!selectedId) return
 
+    const updated = playlists.map((playlist) => {
+      if (
+        playlist.id === selectedId &&
+        !playlist.songs.some((s) => s.id === song.id)
+      ) {
+        return {
+          ...playlist,
+          songs: [...playlist.songs, song],
+        }
+      }
+      return playlist
+    })
 
+    setPlaylists(updated)
+    localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
+  }
 
   if (loading) {
     return (
@@ -37,16 +75,22 @@ export function PlaySong() {
     )
   }
 
- const song = {
-    id: track.id,
-    title: track.title,
-    artist: track.artist.name,
-    album: track.album.title,
-    preview: track.preview,
+ const song: SongData = {
+  id: track.id,
+  title: track.title,
+  artist: track.artist,
+  album: {
+    title: track.album.title,
     cover: track.album.cover,
-  }
-
-  const isSaved = savedTracks.some((t) => t.id === song.id)
+    cover_small: track.album.cover_small || track.album.cover, // this line is safe
+    cover_big: track.album.cover_big
+  },
+  preview: track.preview,
+  duration: track.duration,
+}
+const isSaved = playlists
+  .find((p) => p.id === selectedId)
+  ?.songs.some((s) => s.id === song.id) || false
 
   return (
    
@@ -82,10 +126,10 @@ export function PlaySong() {
           </Text>
 
           <Text fontSize="md" color="gray.600" fontStyle="italic">
-            {track.artist.name}
+            {track.artist}
           </Text>
-{/* Play the song */}
-          <Box as="audio" controls width="100%" mt={2}> 
+
+          <Box as="audio" controls width="100%" mt={2}>
             <source src={track.preview} type="audio/mpeg" />
             Your browser does not support the audio element.
           </Box>
@@ -100,20 +144,32 @@ export function PlaySong() {
           >
             ← Back to Search
           </Link>
+
+          {playlists.length > 0 && (
+            <>
+              <Select
+                placeholder="Select a playlist"
+                value={selectedId}
+                onChange={(e) => setSelectedId(e.target.value)}
+              >
+                {playlists.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+              </Select>
+
+              <Button
+                colorScheme="teal"
+                onClick={() => addToPlaylist(song)}
+                isDisabled={!selectedId || isSaved}
+              >
+                {isSaved ? 'Already in Playlist' : 'Add to Playlist'}
+              </Button>
+            </>
+          )}
         </VStack>
       </Box>
-      <Box> 
-        {isSaved ? (
-          <Button onClick={() => removeTrackFromSaved(song.id)}>
-            Remove from Playlist
-          </Button>
-        ): (
-          <Button onClick={() => addTrackToSaved(song)}>
-            Save to Playlist
-          </Button>
-        )}
-      </Box>
     </Box>
-
   )
 }

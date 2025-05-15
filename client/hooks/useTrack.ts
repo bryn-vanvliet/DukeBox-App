@@ -1,23 +1,9 @@
 import { useEffect, useState} from 'react'
+import { SongData } from '../../models/songData'
 
-interface Track {
-  id: number
-  title: string
-  preview: string
-  duration: number
-  artist: {
-    name: string
-    picture: string
-  }
-  album: {
-    cover_big: string
-    title: string
-    cover: string
-  }
-}
 
 export function useTrack(id?: string) {
-  const [track, setTrack] = useState<Track | null>(null)
+  const [track, setTrack] = useState<SongData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
