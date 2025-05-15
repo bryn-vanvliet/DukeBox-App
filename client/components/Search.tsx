@@ -52,7 +52,7 @@ export function DeezerSearch() {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        height="70vh"
+        height="50vh"
       >
         <Input
           placeholder="Search Deezer..."
@@ -76,6 +76,11 @@ export function DeezerSearch() {
               overflow="hidden"
               p={4}
               textAlign="center"
+              position="relative"
+              top="-40px"
+            
+              
+              
             >
               <Link to={`/play/${track.id}`}>
                 {track.album.cover && (
