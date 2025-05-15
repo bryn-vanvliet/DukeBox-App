@@ -75,25 +75,29 @@ export function PlaySong() {
     )
   }
 
- const song: SongData = {
-  id: track.id,
-  title: track.title,
-  artist: track.artist,
-  album: {
-    title: track.album.title,
-    cover: track.album.cover,
-    cover_small: track.album.cover_small || track.album.cover, // this line is safe
-    cover_big: track.album.cover_big
-  },
-  preview: track.preview,
-  duration: track.duration,
-}
-const isSaved = playlists
-  .find((p) => p.id === selectedId)
-  ?.songs.some((s) => s.id === song.id) || false
+  const song: SongData = {
+    id: track.id,
+    title: track.title,
+    artist: track.artist,
+    album: {
+      title: track.album.title,
+      cover: track.album.cover,
+      cover_small: track.album.cover_small || track.album.cover, // this line is safe
+      cover_big: track.album.cover_big,
+    },
+    preview: track.preview,
+    duration: track.duration,
+  }
+
+  console.log('selectedId:', selectedId)
+  console.log('playlists:', playlists)
+
+  const selectedPlaylist = playlists.find((p) => p.id === selectedId)
+const isSaved = selectedPlaylist
+  ? selectedPlaylist.songs.some((s) => s.id === song.id)
+  : false
 
   return (
-   
     <Box
       display="flex"
       alignItems="center"
@@ -126,7 +130,7 @@ const isSaved = playlists
           </Text>
 
           <Text fontSize="md" color="gray.600" fontStyle="italic">
-            {track.artist}
+            {track.artist.name}
           </Text>
 
           <Box as="audio" controls width="100%" mt={2}>
