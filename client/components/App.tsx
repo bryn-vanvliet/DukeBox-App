@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import Nav from './Nav'
 import { DeezerSearch } from './Search'
 import { PlaySong } from './PlaySong'
-import { Playlist } from './Playlist'
+import { Playlist } from './Playlists'
 
 
 

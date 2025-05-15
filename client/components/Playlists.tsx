@@ -2,19 +2,23 @@ import { useSavedTracks } from '../hooks/useSavedTracks'
 import { Box, Image, Text, Spinner, VStack, Link, Button, Heading } from '@chakra-ui/react'
 import { PlaylistItem } from './Playlist-item'
 import { useEffect, useState} from 'react'
+import { SongData } from '../../models/songData'
+import { Playlist } from '../../models/Playlist'
 
-
-export function Playlist() {
-  const { savedTracks, removeTrackFromSaved } = useSavedTracks()
-  
-
-   
-      function formatDuration(seconds: number) {
+ function formatDuration(seconds: number) {
         const min = Math.floor(seconds / 60)
         const sec = seconds % 60
         return `${min}:${sec.toString().padStart(2, '0')}`
       }
 
+
+
+export function Playlists() {
+  const { savedTracks, removeTrackFromSaved } = useSavedTracks()
+  
+
+   
+     
   
 
 
