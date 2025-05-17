@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 
 let globalAudio: HTMLAudioElement | null = null
 
@@ -7,7 +7,7 @@ export function useAudioPlayer(previewUrl: string) {
 
   const togglePlay = () => {
     if (!globalAudio || globalAudio.src !== previewUrl) {
-      globalAudio?.pause()
+      if (globalAudio) globalAudio.pause()
       globalAudio = new Audio(previewUrl)
     }
 

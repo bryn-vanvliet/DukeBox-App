@@ -1,11 +1,5 @@
 import { DeleteIcon } from '@chakra-ui/icons'
-import {
-  Box,
-  Flex,
-  IconButton,
-  Image,
-  Text,
-} from '@chakra-ui/react'
+import { Box, Flex, IconButton, Image, Text } from '@chakra-ui/react'
 
 import { FaPlay, FaPause } from 'react-icons/fa'
 import { useAudioPlayer } from '../hooks/useAudioPlayer'
@@ -17,8 +11,8 @@ type PlaylistItemProps = {
   previewURL: string
   artist: string
   onRemove: () => void
-  isPlaying: boolean
-  onPlayPause: () => void
+  isActive: boolean
+  onActivate: () => void
 }
 
 export const PlaylistItem = ({
@@ -28,17 +22,14 @@ export const PlaylistItem = ({
   previewURL,
   artist,
   onRemove,
-  isPlaying,
-  onPlayPause,
+  isActive,
+  onActivate,
 }: PlaylistItemProps) => {
-  const { togglePlay } = useAudioPlayer(previewURL)
+  const { isPlaying, togglePlay } = useAudioPlayer(previewURL)
 
-  const handleClick = () => {
-    if (isPlaying) {
-      togglePlay()
-    } else {
-      onPlayPause()
-    }
+  const handlePlayPause = () => {
+    onActivate()
+    togglePlay()
   }
 
   return (
@@ -58,17 +49,21 @@ export const PlaylistItem = ({
         />
         <Box>
           <Text fontWeight="medium">{title}</Text>
-          <Text fontSize="sm" color="gray.500">{artist}</Text>
+          <Text fontSize="sm" color="gray.500">
+            {artist}
+          </Text>
         </Box>
       </Flex>
 
-      <Text fontSize="sm" color="gray.500">{duration}</Text>
+      <Text fontSize="sm" color="gray.500">
+        {duration}
+      </Text>
 
       <Flex gap={2}>
         <IconButton
-          icon={isPlaying ? <FaPause /> : <FaPlay />}
-          onClick={handleClick}
-          aria-label={isPlaying ? 'Pause Preview' : 'Play Preview'}
+          icon={isActive && isPlaying ? <FaPause /> : <FaPlay />}
+          onClick={handlePlayPause}
+          aria-label="Play Preview"
           size="sm"
           variant="ghost"
         />

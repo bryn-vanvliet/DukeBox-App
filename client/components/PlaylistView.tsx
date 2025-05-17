@@ -109,12 +109,8 @@ export function PlaylistView() {
               albumCover={song.album.cover}
               previewURL={song.preview}
               onRemove={() => removeTrackFromPlaylist(song.id)}
-              isPlaying={currentlyPlayingUrl === song.preview}
-              onPlayPause={() =>
-                setCurrentlyPlayingUrl(prev =>
-                  prev === song.preview ? null : song.preview
-                )
-              }
+              isActive={currentlyPlayingUrl === song.preview}
+              onActivate={() => setCurrentlyPlayingUrl(song.preview)}
             />
             ))}
           </VStack>
