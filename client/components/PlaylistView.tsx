@@ -15,7 +15,9 @@ export function PlaylistView() {
   const [playlists, setPlaylists] = useState<Playlist[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const navigate = useNavigate()
-  const [currentlyPlayingUrl, setCurrentlyPlayingUrl] = useState<string | null>(null)
+  const [currentlyPlayingUrl, setCurrentlyPlayingUrl] = useState<string | null>(
+    null,
+  )
   // const audioRef = useRef<HTML
 
   const selectedPlaylist = playlists.find((p) => p.id === selectedId)
@@ -58,78 +60,78 @@ export function PlaylistView() {
       bgGradient="linear(to-b, beige 0%, #fefae0 100%)"
       display="flex"
       alignItems="flex-start"
-     
-
     >
-      <Box display="flex" flexDirection="column" alignItems="center" width="100%" mt={20}>
-      <Select
-        placeholder="Select a playlist"
-        mb={6}
-        mt={40}
-        height="50"
-        onChange={(e) => setSelectedId(e.target.value)}
-        value={selectedId || ''}
-        width="30%"
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        width="100%"
+        mt={20}
       >
-        {playlists.map((p) => (
-          <option key={p.id} value={p.id}>
-            {p.name}
-          </option>
-        ))}
-      </Select>
-      
+        <Select
+          placeholder="Select a playlist"
+          mb={6}
+          mt={40}
+          height="50"
+          onChange={(e) => setSelectedId(e.target.value)}
+          value={selectedId || ''}
+          width="30%"
+        >
+          {playlists.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.name}
+            </option>
+          ))}
+        </Select>
 
-
-      {selectedPlaylist ? (
-        selectedPlaylist.songs.length === 0 ? (
-          <Box textAlign="center" p={8}
-          >
-            <VStack spacing={4}>
-              <Text fontSize="lg" color="gray.600">
-                This playlist is empty.
-              </Text>
-              <Button
-                colorScheme="teal"
-                size="md"
-                bgColor="pink"
-                onClick={() => navigate('/')}
-              >
-                Add to Playlist
-              </Button>
+        {selectedPlaylist ? (
+          selectedPlaylist.songs.length === 0 ? (
+            <Box textAlign="center" p={8}>
+              <VStack spacing={4}>
+                <Text fontSize="lg" color="gray.600">
+                  This playlist is empty.
+                </Text>
+                <Button
+                  colorScheme="teal"
+                  size="md"
+                  bgColor="pink"
+                  onClick={() => navigate('/')}
+                >
+                  Add to Playlist
+                </Button>
+              </VStack>
+            </Box>
+          ) : (
+            <VStack spacing={0} align="stretch" width="30%">
+              {selectedPlaylist.songs.map((song) => (
+                <PlaylistItem
+                  key={song.id}
+                  title={song.title}
+                  artist={song.artist.name}
+                  duration={formatDuration(song.duration)}
+                  albumCover={song.album.cover}
+                  previewURL={song.preview}
+                  onRemove={() => removeTrackFromPlaylist(song.id)}
+                  isActive={currentlyPlayingUrl === song.preview}
+                  onActivate={() => setCurrentlyPlayingUrl(song.preview)}
+                />
+              ))}
             </VStack>
-          </Box>
+          )
         ) : (
-          <VStack spacing={0} align="stretch" width="30%">
-            {selectedPlaylist.songs.map((song) => (
-              <PlaylistItem
-              key={song.id}
-              title={song.title}
-              artist={song.artist.name}
-              duration={formatDuration(song.duration)}
-              albumCover={song.album.cover}
-              previewURL={song.preview}
-              onRemove={() => removeTrackFromPlaylist(song.id)}
-              isActive={currentlyPlayingUrl === song.preview}
-              onActivate={() => setCurrentlyPlayingUrl(song.preview)}
-            />
-            ))}
-          </VStack>
-        )
-      ) : (
-        <Text align="center">No playlist selected</Text>
-      )}
-      <Button
-                colorScheme="teal"
-                size="md"
-                bgColor="pink"
-                onClick={() => navigate('/')}
-                mt={3}
-              >
-                Add to Playlist
-              </Button>
-              <DeezerSearch />
-    </Box>
-    
+          <Text align="center">No playlist selected</Text>
+        )}
+        <Button
+          colorScheme="teal"
+          size="md"
+          bgColor="pink"
+          onClick={() => navigate('/')}
+          mt={3}
+        >
+          Back to Search
+        </Button>
+        <DeezerSearch />
+      </Box>
     </Box>
   )
 }
