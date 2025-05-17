@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { SongData, Song } from '../../models/songs'
+
 
 export async function getSongs() {
 const response = await request.get('/api/v1/songs')
