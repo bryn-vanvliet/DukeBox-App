@@ -1,32 +1,35 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from 'react'
+
+let globalAudio: HTMLAudioElement | null = null
 
 export function useAudioPlayer(previewUrl: string) {
-  const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
   const togglePlay = () => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio(previewUrl)
-      audioRef.current.addEventListener('ended', () => {
-        setIsPlaying(false)
-      })
+    if (!globalAudio || globalAudio.src !== previewUrl) {
+      if (globalAudio) globalAudio.pause()
+      globalAudio = new Audio(previewUrl)
     }
 
-    if(isPlaying) {
-      audioRef.current.pause()}
-      else {
-        audioRef.current.play()
-      }
-
-      setIsPlaying(!isPlaying)
+    if (!globalAudio.paused) {
+      globalAudio.pause()
+      setIsPlaying(false)
+    } else {
+      globalAudio.play()
+      setIsPlaying(true)
     }
 
-    useEffect(() => {
-      return () => {
-        audioRef.current?.pause()
-        audioRef.current = null
-      }
-    }, [])
-
-    return { isPlaying, togglePlay}
+    globalAudio.onended = () => setIsPlaying(false)
   }
+
+  useEffect(() => {
+    return () => {
+      if (globalAudio?.src === previewUrl) {
+        globalAudio.pause()
+        globalAudio = null
+      }
+    }
+  }, [previewUrl])
+
+  return { isPlaying, togglePlay }
+}

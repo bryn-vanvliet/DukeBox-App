@@ -1,15 +1,8 @@
 import { DeleteIcon } from '@chakra-ui/icons'
-import {
-  Box,
-  Flex,
-  IconButton,
-  Image,
-  Text,
-} from '@chakra-ui/react'
+import { Box, Flex, IconButton, Image, Text } from '@chakra-ui/react'
 
 import { FaPlay, FaPause } from 'react-icons/fa'
 import { useAudioPlayer } from '../hooks/useAudioPlayer'
-
 
 type PlaylistItemProps = {
   title: string
@@ -18,6 +11,8 @@ type PlaylistItemProps = {
   previewURL: string
   artist: string
   onRemove: () => void
+  isActive: boolean
+  onActivate: () => void
 }
 
 export const PlaylistItem = ({
@@ -27,10 +22,15 @@ export const PlaylistItem = ({
   previewURL,
   artist,
   onRemove,
+  isActive,
+  onActivate,
 }: PlaylistItemProps) => {
-  const {isPlaying, togglePlay} = useAudioPlayer(previewURL)
-  
-  
+  const { isPlaying, togglePlay } = useAudioPlayer(previewURL)
+
+  const handlePlayPause = () => {
+    onActivate()
+    togglePlay()
+  }
 
   return (
     <Flex
@@ -49,7 +49,9 @@ export const PlaylistItem = ({
         />
         <Box>
           <Text fontWeight="medium">{title}</Text>
-          <Text fontSize="sm" color="gray.500">{artist}</Text>
+          <Text fontSize="sm" color="gray.500">
+            {artist}
+          </Text>
         </Box>
       </Flex>
 
@@ -59,19 +61,21 @@ export const PlaylistItem = ({
 
       <Flex gap={2}>
         <IconButton
-          icon={isPlaying ? <FaPause /> : <FaPlay />}
-          onClick={togglePlay} 
-          aria-label={isPlaying ? 'Pause Preview' : 'Play Preview'}
+          icon={isActive && isPlaying ? <FaPause /> : <FaPlay />}
+          onClick={handlePlayPause}
+          aria-label="Play Preview"
           size="sm"
-          variant="ghost"        />
-          <IconButton 
+          variant="ghost"
+        />
+        <IconButton
           icon={<DeleteIcon />}
           onClick={onRemove}
           aria-label="Remove from Playlist"
           size="sm"
           variant="ghost"
           color="red.500"
-/>
+        />
       </Flex>
     </Flex>
-  )}
+  )
+}
