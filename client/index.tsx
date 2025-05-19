@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   createRoot(document.getElementById('app') as HTMLElement).render(
     
     <Auth0Provider
-      domain="YOUR_DOMAIN"
-      clientId="YOUR_CLIENT_ID"
+      domain="dev-wm8dr78mbnitky11.us.auth0.com"
+      clientId="ZdWKpeiOAotZmubjWWqG1778MDnBBD8K"
       authorizationParams={{
         redirect_uri: window.location.origin
       }}><ChakraProvider>
