@@ -21,6 +21,7 @@ export function PlaySong() {
   const [selectedId, setSelectedId] = useState<string>('')
   const [creatingNew, setCreatingNew] = useState(false)
   const [newPlaylistName, setNewPlaylistName] = useState('')
+  const [justAdded, setJustAdded] = useState(false)
 
   useEffect(() => {
     const stored = localStorage.getItem('dukebox-playlists')
@@ -34,7 +35,9 @@ export function PlaySong() {
   }, [])
 
   const addToPlaylist = (song: SongData) => {
-    if (!selectedId) return
+    if (!selectedId) { 
+      return  }
+   
 
     const updated = playlists.map((playlist) => {
       if (
@@ -51,6 +54,8 @@ export function PlaySong() {
 
     setPlaylists(updated)
     localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
+
+    setJustAdded(true)
   }
 
   if (loading) {
@@ -100,177 +105,200 @@ export function PlaySong() {
     : false
 
   return (
-  <Box
-    display="flex"
-    alignItems="center"
-    justifyContent="center"
-    height="100vh"
-    bgGradient="linear(to-b, beige 0%, #fefae0 100%)"
-    px={4}
-  >
     <Box
-      bg="white"
-      p={8}
-      borderRadius="2xl"
-      boxShadow="2xl"
-      maxW="420px"
-      width="100%"
-      textAlign="center"
-      border="1px solid #ccc"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      height="100vh"
+      bgGradient="linear(to-b, beige 0%, #fefae0 100%)"
+      px={4}
     >
-      <VStack spacing={5}>
-        {/* Song Info */}
-        <Image
-          src={track.album.cover_big}
-          alt={track.album.title}
-          borderRadius="xl"
-          boxSize="250px"
-          objectFit="cover"
-        />
+      <Box
+        bg="white"
+        p={8}
+        borderRadius="2xl"
+        boxShadow="2xl"
+        maxW="420px"
+        width="100%"
+        textAlign="center"
+        border="1px solid #ccc"
+      >
+        <VStack spacing={5}>
+          {/* Song Info */}
+          <Image
+            src={track.album.cover_big}
+            alt={track.album.title}
+            borderRadius="xl"
+            boxSize="250px"
+            objectFit="cover"
+          />
 
-        <Text fontSize="2xl" fontWeight="bold" fontFamily="Georgia, serif">
-          {track.title}
-        </Text>
+          <Text fontSize="2xl" fontWeight="bold" fontFamily="Georgia, serif">
+            {track.title}
+          </Text>
 
-        <Text fontSize="md" color="gray.600" fontStyle="italic">
-          {track.artist.name}
-        </Text>
+          <Text fontSize="md" color="gray.600" fontStyle="italic">
+            {track.artist.name}
+          </Text>
 
-        <Box as="audio" controls width="100%" mt={2}>
-          <source src={track.preview} type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </Box>
+          <Box as="audio" controls width="100%" mt={2}>
+            <source src={track.preview} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </Box>
 
-        <Link
-          as={RouterLink}
-          to="/"
-          color="teal.600"
-          fontWeight="semibold"
-          mt={4}
-          _hover={{ textDecoration: 'underline' }}
-        >
-          ← Back to Search
-        </Link>
+          <Link
+            as={RouterLink}
+            to="/"
+            color="teal.600"
+            fontWeight="semibold"
+            mt={4}
+            _hover={{ textDecoration: 'underline' }}
+          >
+            ← Back to Search
+          </Link>
 
-        {/* Playlist UI goes here */}
-        {playlists.length === 0 ? (
-          <VStack spacing={2} w="100%">
-            <Text fontSize="sm" fontWeight="medium">
-              Create Your First Playlist
-            </Text>
-            <Box display="flex" gap={2} w="100%">
-              <input
-                type="text"
-                value={newPlaylistName}
-                onChange={(e) => setNewPlaylistName(e.target.value)}
-                placeholder="Playlist name"
-                style={{
-                  flex: 1,
-                  padding: '8px',
-                  borderRadius: '8px',
-                  border: '1px solid #ccc',
-                }}
-              />
-              <Button
-                colorScheme="teal"
-                onClick={() => {
-                  const newId = Date.now().toString()
-                  const newPlaylist: Playlist = {
-                    id: newId,
-                    name: newPlaylistName.trim(),
-                    songs: [song],
+          {/* Playlist UI goes here */}
+          {playlists.length === 0 ? (
+            <VStack spacing={2} w="100%">
+              <Text fontSize="sm" fontWeight="medium">
+                Create Your First Playlist
+              </Text>
+              <Box display="flex" gap={2} w="100%">
+                <input
+                  type="text"
+                  value={newPlaylistName}
+                  onChange={(e) => setNewPlaylistName(e.target.value)}
+                  placeholder="Playlist name"
+                  style={{
+                    flex: 1,
+                    padding: '8px',
+                    borderRadius: '8px',
+                    border: '1px solid #ccc',
+                  }}
+                />
+                <Button
+                  colorScheme="teal"
+                  onClick={() => {
+                    const newId = Date.now().toString()
+                    const newPlaylist: Playlist = {
+                      id: newId,
+                      name: newPlaylistName.trim(),
+                      songs: [song],
+                    }
+
+                    const updated = [...playlists, newPlaylist]
+                    setPlaylists(updated)
+                    localStorage.setItem(
+                      'dukebox-playlists',
+                      JSON.stringify(updated),
+                    )
+                    setSelectedId(newId)
+                    setCreatingNew(false)
+                    setNewPlaylistName('')
+                  }}
+                  isDisabled={!newPlaylistName.trim()}
+                >
+                  Create
+                </Button>
+              </Box>
+            </VStack>
+          ) : (
+            <>
+              <Select
+                placeholder="Select a playlist"
+                value={selectedId}
+                onChange={(e) => {
+                  if (e.target.value === 'new') {
+                    setCreatingNew(true)
+                    setSelectedId('')
+                  } else {
+                    setCreatingNew(false)
+                    setSelectedId(e.target.value)
                   }
-
-                  const updated = [...playlists, newPlaylist]
-                  setPlaylists(updated)
-                  localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
-                  setSelectedId(newId)
-                  setCreatingNew(false)
-                  setNewPlaylistName('')
                 }}
-                isDisabled={!newPlaylistName.trim()}
               >
-                Create
-              </Button>
-            </Box>
-          </VStack>
-        ) : (
-          <>
-            <Select
-              placeholder="Select a playlist"
-              value={selectedId}
-              onChange={(e) => {
-                if (e.target.value === 'new') {
-                  setCreatingNew(true)
-                  setSelectedId('')
-                } else {
-                  setCreatingNew(false)
-                  setSelectedId(e.target.value)
-                }
-              }}
-            >
-              {playlists.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-              <option value="new">+ Create New Playlist</option>
-            </Select>
+                {playlists.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+                <option value="new">+ Create New Playlist</option>
+              </Select>
 
-            {creatingNew && (
-              <VStack spacing={2} w="100%">
-                <Text fontSize="sm" fontWeight="medium">New Playlist Name</Text>
-                <Box display="flex" gap={2} w="100%">
-                  <input
-                    type="text"
-                    value={newPlaylistName}
-                    onChange={(e) => setNewPlaylistName(e.target.value)}
-                    placeholder="Playlist name"
-                    style={{
-                      flex: 1,
-                      padding: '8px',
-                      borderRadius: '8px',
-                      border: '1px solid #ccc',
-                    }}
-                  />
-                  <Button
-                    colorScheme="teal"
-                    onClick={() => {
-                      const newId = Date.now().toString()
-                      const newPlaylist: Playlist = {
-                        id: newId,
-                        name: newPlaylistName.trim(),
-                        songs: [song],
-                      }
+              {creatingNew && (
+                <VStack spacing={2} w="100%">
+                  <Text fontSize="sm" fontWeight="medium">
+                    New Playlist Name
+                  </Text>
+                  <Box display="flex" gap={2} w="100%">
+                    <input
+                      type="text"
+                      value={newPlaylistName}
+                      onChange={(e) => setNewPlaylistName(e.target.value)}
+                      placeholder="Playlist name"
+                      style={{
+                        flex: 1,
+                        padding: '8px',
+                        borderRadius: '8px',
+                        border: '1px solid #ccc',
+                      }}
+                    />
+                    <Button
+                      colorScheme="teal"
+                      onClick={() => {
+                        const newId = Date.now().toString()
+                        const newPlaylist: Playlist = {
+                          id: newId,
+                          name: newPlaylistName.trim(),
+                          songs: [song],
+                        }
 
-                      const updated = [...playlists, newPlaylist]
-                      setPlaylists(updated)
-                      localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
-                      setSelectedId(newId)
-                      setCreatingNew(false)
-                      setNewPlaylistName('')
-                    }}
-                    isDisabled={!newPlaylistName.trim()}
-                  >
-                    Create
-                  </Button>
-                </Box>
-              </VStack>
-            )}
+                        const updated = [...playlists, newPlaylist]
+                        setPlaylists(updated)
+                        localStorage.setItem(
+                          'dukebox-playlists',
+                          JSON.stringify(updated),
+                        )
+                        setSelectedId(newId)
+                        setCreatingNew(false)
+                        setNewPlaylistName('')
+                      }}
+                      isDisabled={!newPlaylistName.trim()}
+                    >
+                      Create
+                    </Button>
+                  </Box>
+                </VStack>
+              )}
 
-            {!creatingNew && (
-              <Button
-                colorScheme="teal"
-                onClick={() => addToPlaylist(song)}
-                isDisabled={!selectedId || isSaved}
-              >
-                {isSaved ? 'Woop!' : 'Add to Playlist'}
-              </Button>
-            )}
-          </>
-        )}
-      </VStack>
+              {!creatingNew && (
+                <Button
+                  colorScheme="teal"
+                  onClick={() => addToPlaylist(song)}
+                  isDisabled={!selectedId || isSaved}
+                >
+                  {isSaved ? 'Woop!' : 'Add to Playlist'}
+                </Button>
+                
+              )}
+              {justAdded && selectedId && (
+                <Button
+                  as={RouterLink}
+                  to={`/playlist`}
+                  colorScheme="blue"
+                  variant="outline"
+                >
+                  Go To Playlist
+                </Button>
+              )}
+              
+              
+            </>
+            
+          )}
+          
+        </VStack>
+      </Box>
     </Box>
-  </Box>
-)}
-
+  )
+}

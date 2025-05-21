@@ -3,7 +3,7 @@ import { PlaylistItem } from './Playlist-item'
 import { useEffect, useState } from 'react'
 import { Playlist } from '../../models/Playlist'
 import { useNavigate } from 'react-router-dom'
-import { DeezerSearch } from './Search'
+
 
 function formatDuration(seconds: number) {
   const min = Math.floor(seconds / 60)
