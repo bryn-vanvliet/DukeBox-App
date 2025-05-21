@@ -5,7 +5,7 @@ import Nav from './Nav'
 import { DeezerSearch } from './Search'
 import { PlaySong } from './PlaySong'
 import { PlaylistView } from './PlaylistView'
-import AuthButtons from './Auth'
+// import AuthButtons from './Auth'
 import Protected from './Protected'
 
 

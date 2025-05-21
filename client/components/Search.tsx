@@ -35,7 +35,7 @@ export function DeezerSearch() {
   const handleSearch = async (searchQuery: string) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/deezer/search?q=${encodeURIComponent(searchQuery)}`
+        `http://localhost:5000/api/v1/deezer/search?q=${encodeURIComponent(searchQuery)}`,
       )
       const data = await response.json()
       setResults(data.data)
@@ -45,7 +45,14 @@ export function DeezerSearch() {
   }
 
   return (
-    <Box display="flex" flexDirection="column">
+    <Box
+      display="flex"
+      flexDirection="column"
+      minHeight="100vh"
+      px={6}
+      py={10}
+      bgGradient="linear(to-b, beige 0%, #fefae0 100%)"
+    >
       <Box
         flex="0 0 auto"
         display="flex"
@@ -78,9 +85,6 @@ export function DeezerSearch() {
               textAlign="center"
               position="relative"
               top="-40px"
-            
-              
-              
             >
               <Link to={`/play/${track.id}`}>
                 {track.album.cover && (
