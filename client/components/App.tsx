@@ -13,7 +13,7 @@ import Protected from './Protected'
 function App() {
   return (
     <>
-    <AuthButtons />
+ 
     
       <header className="header">
       

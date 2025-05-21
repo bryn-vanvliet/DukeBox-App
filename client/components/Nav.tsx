@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import Logo from './Logo'
+import AuthButtons from './Auth'
 
 export default function Nav() {
   const navigate = useNavigate()
@@ -21,7 +22,9 @@ export default function Nav() {
     <nav>
       <Logo />
       <Box position="absolute" right={3} top={2} zIndex={10}>
+        {/* Hamburger and Login/Logout */}
         <Flex justify="flex-end" gap={6} marginTop={4}>
+          <AuthButtons />
           <Icon
             as={HamburgerIcon}
             boxSize={10}
