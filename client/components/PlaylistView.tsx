@@ -130,7 +130,7 @@ export function PlaylistView() {
         >
           Back to Search
         </Button>
-        <DeezerSearch />
+  
       </Box>
     </Box>
   )
