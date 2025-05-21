@@ -9,31 +9,26 @@ import { PlaylistView } from './PlaylistView'
 import Protected from './Protected'
 
 
-
 function App() {
   return (
     <>
- 
-    
       <header className="header">
-      
-      <Nav />
+        <Nav />
       </header>
-      
+
       <section className="main">
-      <Protected>
-       <Routes>
-        <Route path="/" element={<DeezerSearch />} />
-        {/* <Route path="/search" element={<DeezerSearch />} /> */}
-        <Route path="/play/:id" element={<PlaySong />} />
-        <Route path="/Playlist" element={<PlaylistView />} />
-       </Routes>
-       </Protected>
+        <Protected>
+          <Routes>
+            <Route path="/" element={<DeezerSearch />} />
+            {/* <Route path="/search" element={<DeezerSearch />} /> */}
+            <Route path="/play/:id" element={<PlaySong />} />
+            <Route path="/Playlist" element={<PlaylistView />} />
+            <Route path="/Playlist/:selectedId" element={<PlaylistView />} />
+          </Routes>
+        </Protected>
       </section>
     </>
   )
 }
 
 export default App
-
-

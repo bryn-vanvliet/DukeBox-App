@@ -1,9 +1,9 @@
 import { Box, Text, VStack, Select, Button } from '@chakra-ui/react'
-import { PlaylistItem } from './Playlist-item'
+import { PlaylistItem } from './PlaylistItem'
 import { useEffect, useState } from 'react'
 import { Playlist } from '../../models/Playlist'
 import { useNavigate } from 'react-router-dom'
-
+import { useParams} from 'react-router-dom'
 
 function formatDuration(seconds: number) {
   const min = Math.floor(seconds / 60)
@@ -13,11 +13,12 @@ function formatDuration(seconds: number) {
 
 export function PlaylistView() {
   const [playlists, setPlaylists] = useState<Playlist[]>([])
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+
   const navigate = useNavigate()
   const [currentlyPlayingUrl, setCurrentlyPlayingUrl] = useState<string | null>(
     null,
   )
+const { selectedId } = useParams()
   // const audioRef = useRef<HTML
 
   const selectedPlaylist = playlists.find((p) => p.id === selectedId)
@@ -28,10 +29,6 @@ export function PlaylistView() {
     if (stored) {
       const parsed: Playlist[] = JSON.parse(stored)
       setPlaylists(parsed)
-
-      if (parsed.length > 0) {
-        setSelectedId(parsed[0].id)
-      }
     }
   }, [])
 
@@ -73,7 +70,7 @@ export function PlaylistView() {
           mb={6}
           mt={40}
           height="50"
-          onChange={(e) => setSelectedId(e.target.value)}
+          onChange={(e) => navigate(`/playlist/${e.target.value}`)}
           value={selectedId || ''}
           width="30%"
         >
@@ -130,7 +127,6 @@ export function PlaylistView() {
         >
           Back to Search
         </Button>
-  
       </Box>
     </Box>
   )

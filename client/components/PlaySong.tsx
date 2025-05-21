@@ -284,7 +284,7 @@ export function PlaySong() {
               {justAdded && selectedId && (
                 <Button
                   as={RouterLink}
-                  to={`/playlist`}
+                  to={`/Playlist/${selectedId}`}
                   colorScheme="blue"
                   variant="outline"
                 >
