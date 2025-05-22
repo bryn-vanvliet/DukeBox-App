@@ -10,7 +10,7 @@ const LoginPage: React.FC = () => {
   return (
     <Box textAlign="center" mt="20">
     <Heading size="xl" mb="4">Welcome to DukeBox</Heading>
-    <Text mb="8">Please log in to access your music</Text>
+    <Text mb="8">Please log in to access your setlists</Text>
     <Button colorScheme="blue" onClick={() => loginWithRedirect()}>
       Log In
     </Button>

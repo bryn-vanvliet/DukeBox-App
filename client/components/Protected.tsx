@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ReactNode } from "react";
-import LoginPage from "./LoginPage";
+import LoginPage from "./Login";
 
 const Protected = ({ children}: { children: ReactNode}) => {
   const { isAuthenticated, isLoading} = useAuth0()

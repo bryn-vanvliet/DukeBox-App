@@ -1,9 +1,9 @@
-import { Box, Text, VStack, Select, Button } from '@chakra-ui/react'
-import { PlaylistItem } from './Playlist-item'
+import { Box, Text, VStack, Select, Button, HStack, } from '@chakra-ui/react'
+import { PlaylistItem } from './PlaylistItem'
 import { useEffect, useState } from 'react'
 import { Playlist } from '../../models/Playlist'
 import { useNavigate } from 'react-router-dom'
-import { DeezerSearch } from './Search'
+import { useParams} from 'react-router-dom'
 
 function formatDuration(seconds: number) {
   const min = Math.floor(seconds / 60)
@@ -13,11 +13,12 @@ function formatDuration(seconds: number) {
 
 export function PlaylistView() {
   const [playlists, setPlaylists] = useState<Playlist[]>([])
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+
   const navigate = useNavigate()
   const [currentlyPlayingUrl, setCurrentlyPlayingUrl] = useState<string | null>(
     null,
   )
+const { selectedId } = useParams() 
   // const audioRef = useRef<HTML
 
   const selectedPlaylist = playlists.find((p) => p.id === selectedId)
@@ -28,10 +29,6 @@ export function PlaylistView() {
     if (stored) {
       const parsed: Playlist[] = JSON.parse(stored)
       setPlaylists(parsed)
-
-      if (parsed.length > 0) {
-        setSelectedId(parsed[0].id)
-      }
     }
   }, [])
 
@@ -48,9 +45,31 @@ export function PlaylistView() {
       return playlist
     })
 
+    
+
     setPlaylists(updated)
     localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
   }
+  const handleDeletePlaylist = (id: string) => {
+    const updated = playlists.filter((p) => p.id !== id)
+
+    setPlaylists(updated)
+    localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
+
+    if (id === selectedId) {
+      if (updated.length > 0) {
+        navigate(`/playlist/${updated[0].id}`)
+      } else [
+        navigate('/')
+      ]
+    }
+  }
+
+  const totalDuration = selectedPlaylist?.songs.reduce(
+    (acc, song) => acc + song.duration, 0
+  )
+
+  const formattedDuration = totalDuration ? formatDuration(totalDuration) : '0.00'
 
   return (
     <Box
@@ -68,14 +87,16 @@ export function PlaylistView() {
         width="100%"
         mt={20}
       >
+       
+        <HStack spacing={4} mt={40} alignItems="center">
         <Select
           placeholder="Select a playlist"
           mb={6}
-          mt={40}
+      
           height="50"
-          onChange={(e) => setSelectedId(e.target.value)}
+          onChange={(e) => navigate(`/playlist/${e.target.value}`)}
           value={selectedId || ''}
-          width="30%"
+          width="300px"
         >
           {playlists.map((p) => (
             <option key={p.id} value={p.id}>
@@ -83,6 +104,20 @@ export function PlaylistView() {
             </option>
           ))}
         </Select>
+        {selectedId && (
+          <Button 
+          colorScheme="red"
+          size="sm"
+          mt={2}
+          bottom={2}
+          
+          
+          onClick={() => handleDeletePlaylist(selectedId)}>
+            Delete This Playlist
+          </Button>
+        )}</HStack>
+    
+        
 
         {selectedPlaylist ? (
           selectedPlaylist.songs.length === 0 ? (
@@ -103,7 +138,9 @@ export function PlaylistView() {
             </Box>
           ) : (
             <VStack spacing={0} align="stretch" width="30%">
-              {selectedPlaylist.songs.map((song) => (
+              {selectedPlaylist.songs.map((song) => { 
+                console.log('Rendering duration:', song.duration) 
+                return (
                 <PlaylistItem
                   key={song.id}
                   title={song.title}
@@ -115,7 +152,8 @@ export function PlaylistView() {
                   isActive={currentlyPlayingUrl === song.preview}
                   onActivate={() => setCurrentlyPlayingUrl(song.preview)}
                 />
-              ))}
+                
+              )})}
             </VStack>
           )
         ) : (
@@ -130,7 +168,10 @@ export function PlaylistView() {
         >
           Back to Search
         </Button>
-        <DeezerSearch />
+        <Text fontSize='lg' color="gray.600" mt={4}>
+          Total Duration: {formattedDuration}
+        </Text>
+        
       </Box>
     </Box>
   )
