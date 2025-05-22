@@ -49,6 +49,12 @@ const { selectedId } = useParams()
     localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
   }
 
+  const totalDuration = selectedPlaylist?.songs.reduce(
+    (acc, song) => acc + song.duration, 0
+  )
+
+  const formattedDuration = totalDuration ? formatDuration(totalDuration) : '0.00'
+
   return (
     <Box
       minHeight="100vh"
@@ -100,7 +106,9 @@ const { selectedId } = useParams()
             </Box>
           ) : (
             <VStack spacing={0} align="stretch" width="30%">
-              {selectedPlaylist.songs.map((song) => (
+              {selectedPlaylist.songs.map((song) => { 
+                console.log('Rendering duration:', song.duration) 
+                return (
                 <PlaylistItem
                   key={song.id}
                   title={song.title}
@@ -112,7 +120,8 @@ const { selectedId } = useParams()
                   isActive={currentlyPlayingUrl === song.preview}
                   onActivate={() => setCurrentlyPlayingUrl(song.preview)}
                 />
-              ))}
+                
+              )})}
             </VStack>
           )
         ) : (
@@ -127,6 +136,9 @@ const { selectedId } = useParams()
         >
           Back to Search
         </Button>
+        <Text fontSize='lg' color="gray.600" mt={4}>
+          Total Duration: {formattedDuration}
+        </Text>
       </Box>
     </Box>
   )
