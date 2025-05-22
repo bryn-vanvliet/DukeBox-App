@@ -1,4 +1,4 @@
-import { User, UserData} from '../../../client/models/users.ts'
+import { User, UserData} from '../../../models/users.ts'
 import db from './../connection.ts'
 
 export const userKeys = [
@@ -35,3 +35,4 @@ export async function getUserByAuthId(authId: string) {
     return user as User
   } 
   
+
