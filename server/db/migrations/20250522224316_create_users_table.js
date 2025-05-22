@@ -7,7 +7,6 @@ export function up(knex) {
     table.integer('id').primary()
     table.string('auth_id')
     table.string('name')
-    table.integer('avatar_id')
   })
 }
 
