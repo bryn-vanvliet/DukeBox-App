@@ -1,4 +1,4 @@
-import { Box, Text, VStack, Select, Button } from '@chakra-ui/react'
+import { Box, Text, VStack, Select, Button, HStack, } from '@chakra-ui/react'
 import { PlaylistItem } from './PlaylistItem'
 import { useEffect, useState } from 'react'
 import { Playlist } from '../../models/Playlist'
@@ -18,7 +18,7 @@ export function PlaylistView() {
   const [currentlyPlayingUrl, setCurrentlyPlayingUrl] = useState<string | null>(
     null,
   )
-const { selectedId } = useParams()
+const { selectedId } = useParams() 
   // const audioRef = useRef<HTML
 
   const selectedPlaylist = playlists.find((p) => p.id === selectedId)
@@ -45,8 +45,24 @@ const { selectedId } = useParams()
       return playlist
     })
 
+    
+
     setPlaylists(updated)
     localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
+  }
+  const handleDeletePlaylist = (id: string) => {
+    const updated = playlists.filter((p) => p.id !== id)
+
+    setPlaylists(updated)
+    localStorage.setItem('dukebox-playlists', JSON.stringify(updated))
+
+    if (id === selectedId) {
+      if (updated.length > 0) {
+        navigate(`/playlist/${updated[0].id}`)
+      } else [
+        navigate('/')
+      ]
+    }
   }
 
   const totalDuration = selectedPlaylist?.songs.reduce(
@@ -71,14 +87,16 @@ const { selectedId } = useParams()
         width="100%"
         mt={20}
       >
+       
+        <HStack spacing={4} mt={40} alignItems="center">
         <Select
           placeholder="Select a playlist"
           mb={6}
-          mt={40}
+      
           height="50"
           onChange={(e) => navigate(`/playlist/${e.target.value}`)}
           value={selectedId || ''}
-          width="30%"
+          width="300px"
         >
           {playlists.map((p) => (
             <option key={p.id} value={p.id}>
@@ -86,6 +104,20 @@ const { selectedId } = useParams()
             </option>
           ))}
         </Select>
+        {selectedId && (
+          <Button 
+          colorScheme="red"
+          size="sm"
+          mt={2}
+          bottom={2}
+          
+          
+          onClick={() => handleDeletePlaylist(selectedId)}>
+            Delete This Playlist
+          </Button>
+        )}</HStack>
+    
+        
 
         {selectedPlaylist ? (
           selectedPlaylist.songs.length === 0 ? (
@@ -139,6 +171,7 @@ const { selectedId } = useParams()
         <Text fontSize='lg' color="gray.600" mt={4}>
           Total Duration: {formattedDuration}
         </Text>
+        
       </Box>
     </Box>
   )
