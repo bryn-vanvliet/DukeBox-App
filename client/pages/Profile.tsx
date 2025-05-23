@@ -1,4 +1,4 @@
-import { useEffect, useState} from 'react'
+
 import { Box, Button, Flex, VStack} from '@chakra-ui/react'
 import UserProfile from '../components/UserProfile'
 import { 
@@ -10,35 +10,31 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 export default function UserHomePage() {
   const { data: userData, isPending, error} = useUserDataAuth()
-  const { loginWithRedirect, isAuthenticated} = useAuth0()
-  const [stopLoading, setStopLoading] = useState(false)
+  const { loginWithRedirect, isAuthenticated, isLoading} = useAuth0()
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setStopLoading(true)
-    }, 1500)
 
-    return () => clearTimeout(timeout)
-  }, [])
+
+
 
   const handleSignIn = () => {
     loginWithRedirect()
   }
 
-  if (isPending && !stopLoading) {
+  if (isLoading || isPending) {
     return (
       <Box height="100vh" backgroundColor="#B3D9E1">
         <Flex height="100%" align="center" justify="center">
           <VStack>
-            <h2>Loading profile</h2>
+            <h2>Loading profile...</h2>
           </VStack>
         </Flex>
       </Box>
     )
   }
 
+
   // --IfNotAuthenticated Path -- //
-  if (!isAuthenticated && stopLoading) {
+  if (!isAuthenticated) {
     return (
       <Box height="100vh" backgroundColor="#B3D9E1">
       <Flex height="100%" align="center" justify="center">
