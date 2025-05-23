@@ -6,31 +6,21 @@ import useUserDataAuth from '../hooks/useUserDataAuth'
 
 
 export default function UserProfile(){
-  const { data: userData, isPending} = useUserDataAuth()
+  const { data: userData, isPending, error} = useUserDataAuth()
 
 if (isPending) return <Text>Loading...</Text>
+if (error) return <Text color="red.500">Error loading profile</Text>
 if (!userData) return <Text>No user found</Text>
 
 return (
-  <>
-  <Box 
-  width="330px"
-  mx="auto"
-  textAlign="center"
-  display="flex"
-  alignItems="center"
-  justifyContent="center"
-  height="100px">
-    <Heading mb={0} fontSize="2xl" textAlign="center">
-      {`Welcome, ${userData.name}`}</Heading></Box>
-      
-      <Box 
-      width="300px"
-      mx="auto"
-      p={6}
-      textAlign="center"
-      transition="all 0.3s ease"
-      _hover={{ transform: `scale(1.02)`}}>
-      </Box></>
+  
+  <Box>
+    <Heading as="h2" size="lg">
+      {`Welcome, ${userData.name}!`}
+    </Heading>
+    <Text fontSize="md" color="gray.600" mt={2}>
+      This is your profile page
+    </Text>
+    </Box>
 )
 }
