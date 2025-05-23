@@ -8,7 +8,7 @@ import { PlaylistView } from './PlaylistView'
 // import AuthButtons from './Auth'
 import Protected from './Protected'
 import Login from './Login'
-import Profile from '/Profile'
+import Profile from '../pages/Profile'
 
 
 function App() {
