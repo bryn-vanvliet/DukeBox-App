@@ -1,16 +1,17 @@
-import { useMutation, useQueryClient} from '@tanstack/react-query'
 import request from 'superagent'
-import { UserData} from '../../models/users.ts'
+import { useQuery} from '@tanstack/react-query'
+
+import { User} from '../../models/users.ts'
 
 
-export default function useAddUser() {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: async (data: UserData) => {
-      await request.post('/api/v1/user').send(data)
-    },
-    onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ['user']})
+export default function useUserData(id: number | undefined) {
+  const query = useQuery({
+    queryKey: ['users', id],
+    queryFn: async () => {
+      const res = await request.get(`/api/v1/users/${id}`)
+      return res.body as User
     }
   })
+
+  return {...query}
 }
