@@ -8,6 +8,7 @@ import { PlaylistView } from './PlaylistView'
 // import AuthButtons from './Auth'
 import Protected from './Protected'
 import Login from './Login'
+import Profile from '../pages/Profile'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<DeezerSearch />} />
+            <Route path="/profile" element={<Profile />} />
             {/* <Route path="/search" element={<DeezerSearch />} /> */}
             <Route path="/play/:id" element={<PlaySong />} />
             <Route path="/Playlist" element={<PlaylistView />} />
